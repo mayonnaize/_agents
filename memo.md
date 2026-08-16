@@ -7,6 +7,9 @@
 | **Skills**       | **Antigravity** | `~/.gemini/config/skills/`                                            | `.agents/skills/` (互換: `.agent/skills/`)                                                     |
 |                  | **Codex**       | `~/.agents/skills/`                                                   | `.agents/skills/`                                                                              |
 |                  | **Copilot**     | `~/.copilot/skills/`, `~/.agents/skills/`                             | `.github/skills/`, `.agents/skills/`, `.claude/skills/`                                        |
+| **Rules**        | **Antigravity** | `~/.gemini/config/rules/`                                             | `.agents/rules/` (互換: `.agent/rules/`)                                                       |
+|                  | **Codex**       | `~/.agents/rules/`                                                    | `.agents/rules/`                                                                               |
+|                  | **Copilot**     | `~/.copilot/rules/`, `~/.agents/rules/`                               | `.github/rules/`, `.agents/rules/`, `.claude/rules/`                                           |
 | **Hooks**        | **Antigravity** | `~/.gemini/config/hooks.json`                                         | `.agents/hooks.json`                                                                           |
 |                  | **Codex**       | `~/.codex/hooks.json`, `~/.codex/config.toml`                         | `.codex/hooks.json`, `.codex/config.toml`                                                      |
 |                  | **Copilot**     | `~/.copilot/hooks/*.json`                                             | `.github/hooks/*.json`                                                                         |
