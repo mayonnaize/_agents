@@ -1,0 +1,30 @@
+{
+  "agents-workflow": {
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "python hooks/pre_invocation.py",
+        "timeout": 10
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "python hooks/stop_notify.py",
+        "timeout": 10
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "ask_question",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python hooks/action_needed_notify.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
