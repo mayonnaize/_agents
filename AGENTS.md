@@ -21,5 +21,4 @@
 
 - `/verification-before-completion` スキルを読み込み、作業に不備がないか確認すること
 - `/create-readme` スキルを読み込み、README.mdやAGENTS.mdの変更要否を確認し、必要であれば更新すること
-- PowerShellで音を鳴らして知らせること
-
+- PowerShellでWindowsトースト通知を出して知らせること
