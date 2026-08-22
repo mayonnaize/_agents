@@ -6,7 +6,7 @@ def main():
     agent_name = sys.argv[1] if len(sys.argv) > 1 else 'Antigravity'
     
     # 実行ログの記録
-    hook_logger.log_call(agent_name)
+    hook_logger.info(agent_name)
 
     # 標準入力からのコンテキスト情報の破棄
     if not sys.stdin.isatty():

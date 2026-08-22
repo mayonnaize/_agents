@@ -10,12 +10,6 @@ def _show_notification(agent_name, notify_type):
         message = 'コマンド実行の許可が必要です。'
     else:
         message = 'エージェントの作業が完了しました。'
-    notification.notify(
-        title=agent_name,
-        message=message,
-        app_name=agent_name,
-        timeout=5
-    )
     # 通知処理の実行と例外ハンドリング
     try:
         notification.notify(
@@ -26,7 +20,7 @@ def _show_notification(agent_name, notify_type):
         )
     except Exception as e:
         # エラーログの出力
-        hook_logger.log_error(agent_name, f"通知出力例外: {e}")
+        hook_logger.error(agent_name, f"通知出力例外: {e}")
 
 
 def main():
@@ -38,7 +32,7 @@ def main():
     notify_type = sys.argv[2] if len(sys.argv) > 2 else 'stop'
 
     # 実行ログの記録
-    hook_logger.log_call(agent_name)
+    hook_logger.info(agent_name)
 
     _show_notification(agent_name, notify_type)
 
