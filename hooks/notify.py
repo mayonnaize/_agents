@@ -6,6 +6,8 @@ from plyer import notification
 def _show_notification(agent_name, notify_type):
     if notify_type == 'action_needed':
         message = 'ユーザーのアクション（質問への回答など）が必要です。'
+    elif notify_type == 'command_approval':
+        message = 'コマンド実行の許可が必要です。'
     else:
         message = 'エージェントの作業が完了しました。'
 
@@ -30,6 +32,11 @@ def main():
     _show_notification(agent_name, notify_type)
 
     if notify_type == 'action_needed':
+        # 通知を出した上で、ツール実行自体は許可（allow）して本体の承認フローに任せる
+        print(json.dumps({"decision": "allow"}))
+        sys.exit(0)
+    elif notify_type == 'command_approval':
+        # 通知を出した上で、ツール実行自体は許可（allow）して本体の承認フローに任せる
         print(json.dumps({"decision": "allow"}))
         sys.exit(0)
     else:
