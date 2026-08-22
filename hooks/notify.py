@@ -1,4 +1,4 @@
-﻿import sys
+import sys
 import json
 import hook_logger
 from plyer import notification
@@ -10,13 +10,24 @@ def _show_notification(agent_name, notify_type):
         message = 'コマンド実行の許可が必要です。'
     else:
         message = 'エージェントの作業が完了しました。'
-
     notification.notify(
         title=agent_name,
         message=message,
         app_name=agent_name,
         timeout=5
     )
+    # 通知処理の実行と例外ハンドリング
+    try:
+        notification.notify(
+            title=agent_name,
+            message=message,
+            app_name=agent_name,
+            timeout=5
+        )
+    except Exception as e:
+        # エラーログの出力
+        hook_logger.log_error(agent_name, f"通知出力例外: {e}")
+
 
 def main():
     # 標準入力からのコンテキスト情報の破棄

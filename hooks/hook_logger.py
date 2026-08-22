@@ -16,7 +16,7 @@ def log_call(agent_name="Unknown"):
     # 実行ファイル名とコマンドライン引数の取得
     script_path = Path(sys.argv[0]).resolve()
     file_name = script_path.name
-    args = sys.argv[1:]
+    args = sys.argv[2:]
 
     # 実行元のワークスペースのパス
     workspace_path = Path.cwd()
@@ -26,3 +26,25 @@ def log_call(agent_name="Unknown"):
     
     with log_file.open('a', encoding='utf-8') as f:
         f.write(log_line)
+
+def log_error(agent_name="Unknown", error_msg=""):
+    # 呼び出し時刻の取得
+    now = datetime.datetime.now()
+    date_str = now.strftime('%Y%m%d')
+    time_str = now.strftime('%H:%M:%S')
+
+    # ログディレクトリの構築
+    log_dir = Path.home() / '.agents' / 'logs'
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_file = log_dir / f'{date_str}.log'
+
+    # 実行ファイル名の取得
+    script_path = Path(sys.argv[0]).resolve()
+    file_name = script_path.name
+
+    # エラーログエントリの生成と追記
+    log_line = f"[{time_str}] [ERROR] Agent: {agent_name} | File: {file_name} | Error: {error_msg}\n"
+    
+    with log_file.open('a', encoding='utf-8') as f:
+        f.write(log_line)
+
