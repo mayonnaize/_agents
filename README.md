@@ -10,6 +10,8 @@
 - **[`AGENTS.md`](./AGENTS.md)**: 全てのAIエージェントが実行時に従うべき中核となるルール、動作原則、ワークフローを定義します。
 - **[`hooks/`](./hooks/)**: 各種エージェントから呼び出される共通のフックスクリプトを格納します。
 - **[`antigravity/`](./antigravity/)**: Antigravityエージェント固有の設定（`hooks.json` 等）を格納します。
+- **[`antigravity/`](./antigravity/)**: Antigravity専用のイベントフック設定（`hooks.json`）が含まれています。
+- **[`hooks/`](./hooks/)**: イベント発生時に実行される各種Pythonフックスクリプト（`pre_invocation.py`, `notify.py`, `stop.py`, `hook_logger.py`）が含まれています。
 - **[`skills/`](./skills/)**: 特定のタスクに対してエージェントの機能を拡張するカスタムスキルが含まれています。
 - **[`memo.md`](./memo.md)**: クロスプラットフォームのAIエージェントの仕様、互換性、標準規格に関するドキュメントとメモです。
 

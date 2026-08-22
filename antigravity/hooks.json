@@ -10,6 +10,11 @@
     "Stop": [
       {
         "type": "command",
+        "command": "python hooks/stop.py Antigravity",
+        "timeout": 10
+      },
+      {
+        "type": "command",
         "command": "python hooks/notify.py Antigravity stop",
         "timeout": 10
       }
