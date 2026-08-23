@@ -20,7 +20,7 @@ def main():
     if execution_num == 0:
         response = {
             "decision": "continue",
-            "reason": "タスクの完了報告を行う前に、必ず README.md、AGENTS.md、仕様書などのドキュメント類の更新が必要かどうかを自己評価・確認すること。"
+            "reason": "/sanitize-artifacts タスクの完了報告を行う前に、必ず README.md、AGENTS.md、仕様書などのドキュメント類の更新が必要かどうかを自己評価・確認すること。"
         }
     else:
         response = {
