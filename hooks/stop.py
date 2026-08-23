@@ -1,32 +1,34 @@
-import sys
+﻿import sys
 import json
 import hook_logger
-import notify
 
 def main():
-    # 標準入力からのコンテキスト情報の破棄
+    input_data = {}
     if not sys.stdin.isatty():
-        sys.stdin.read()
+        stdin_content = sys.stdin.read()
+        if stdin_content.strip():
+            try:
+                input_data = json.loads(stdin_content)
+            except json.JSONDecodeError:
+                pass
 
     agent_name = sys.argv[1] if len(sys.argv) > 1 else 'Antigravity'
-
-    # 実行ログの記録
     hook_logger.info(agent_name)
 
-    # 通知の表示
-    notify._show_notification(agent_name, 'stop')
+    execution_num = input_data.get("executionNum", 0)
 
-    # ドキュメント更新確認指示の注入
-    response = {
-        "injectSteps": [
-            {
-                "ephemeralMessage": "タスクの完了報告を行う前に、必ず README.md や AGENTS.md、仕様書 などのドキュメント類の更新が必要かどうかを自己評価・確認すること。"
-            }
-        ]
-    }
-    print(json.dumps(response, ensure_ascii=False))
+    if execution_num == 0:
+        response = {
+            "decision": "continue",
+            "reason": "タスクの完了報告を行う前に、必ず README.md、AGENTS.md、仕様書などのドキュメント類の更新が必要かどうかを自己評価・確認すること。"
+        }
+    else:
+        response = {
+            "decision": "allow"
+        }
+        
+    print(json.dumps(response, ensure_ascii=True))
     sys.stdout.flush()
 
 if __name__ == "__main__":
-
     main()

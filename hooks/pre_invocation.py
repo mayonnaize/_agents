@@ -1,4 +1,4 @@
-import sys
+﻿import sys
 import json
 import hook_logger
 
@@ -19,8 +19,8 @@ def main():
             }
         ]
     }
-    # 規定のJSON出力による指示の注入
-    print(json.dumps(response, ensure_ascii=False))
+    # 文字化け防止のため ensure_ascii=True に変更
+    print(json.dumps(response, ensure_ascii=True))
 
 if __name__ == "__main__":
     main()
