@@ -1,31 +1,22 @@
 {
   "agents-workflow": {
+    "SessionStart": null,
     "PreInvocation": [
       {
         "type": "command",
-        "command": "python hooks/pre_invocation.py Antigravity",
+        "command": "python3 hooks/pre_invocation.py Antigravity",
         "timeout": 10
       }
     ],
-    "Stop": [
-      {
-        "type": "command",
-        "command": "python hooks/stop.py Antigravity",
-        "timeout": 10
-      },
-      {
-        "type": "command",
-        "command": "python hooks/notify.py Antigravity stop",
-        "timeout": 10
-      }
-    ],
+    "PostInvocation": null,
+    "Stop": [],
     "PreToolUse": [
       {
         "matcher": "ask_question",
         "hooks": [
           {
             "type": "command",
-            "command": "python hooks/notify.py Antigravity action_needed",
+            "command": "python3 hooks/notify.py Antigravity action_needed",
             "timeout": 10
           }
         ]
@@ -35,11 +26,12 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python hooks/notify.py Antigravity command_approval",
+            "command": "python3 hooks/notify.py Antigravity command_approval",
             "timeout": 10
           }
         ]
       }
-    ]
+    ],
+    "PostToolUse": null
   }
 }

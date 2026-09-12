@@ -1,7 +1,10 @@
 import sys
 import json
 import hook_logger
-from plyer import notification
+try:
+    from plyer import notification
+except ImportError:
+    notification = None
 
 def _show_notification(agent_name, notify_type):
     if notify_type == 'action_needed':
@@ -12,12 +15,15 @@ def _show_notification(agent_name, notify_type):
         message = 'エージェントの作業が完了しました。'
     # 通知処理の実行と例外ハンドリング
     try:
-        notification.notify(
-            title=agent_name,
-            message=message,
-            app_name=agent_name,
-            timeout=5
-        )
+        if notification:
+            notification.notify(
+                title=agent_name,
+                message=message,
+                app_name=agent_name,
+                timeout=5
+            )
+        else:
+            hook_logger.error(agent_name, "通知出力例外: plyerモジュールがインストールされていません")
     except Exception as e:
         # エラーログの出力
         hook_logger.error(agent_name, f"通知出力例外: {e}")
