@@ -1,70 +1,55 @@
-# Inquiry Checkpoints
+# 調査チェックポイント
 
-Per-template investigation questions for Phase 2 of the acquire-codebase-knowledge workflow. For each template area, look for answers in the scan output first, then read source files to fill gaps.
+スキャン出力は候補一覧として使い、次の項目は必ず実ファイルで確認する。仕様書へ書く重要な事実には `E-*` を付ける。
 
----
+## 1. 指示と対象範囲
 
-## 1. STACK.md — Tech Stack
+- リポジトリおよび対象ディレクトリの `AGENTS.md`、`CLAUDE.md`、README、既存仕様を読む。
+- 対象機能の開始点と終了点、対象外、利用者、外部システムを特定する。
+- As-Is、To-Be、Gapのどれを扱うかを確定する。
 
-- What is the primary language and exact version? (check `.nvmrc`, `go.mod`, `pyproject.toml`, Docker `FROM` line)
-- What package manager is used? (`npm`, `yarn`, `pnpm`, `go mod`, `pip`, `uv`)
-- What are the core runtime frameworks? (web server, ORM, DI container)
-- What do `dependencies` (production) vs `devDependencies` (dev tooling) contain?
-- Is there a Docker image and what base image does it use?
-- What are the key scripts in `package.json` / `Makefile` / `pyproject.toml`?
+## 2. 実行構造
 
-## 2. STRUCTURE.md — Directory Layout
+- manifest、ランタイム版、パッケージ管理、ビルド・起動方法を実ファイルで確認する。
+- エントリポイントから主要ユースケースを終点まで追う。
+- レイヤー名ではなく、実際にデータを受け取り、変換し、保存し、返す箇所を記録する。
+- DI、singleton、初期化順序、background worker、queue、event handlerを確認する。
 
-- Where does source code live? (usually `src/`, `lib/`, or project root for Go)
-- What are the entry points? (check `main` in `package.json`, `scripts.start`, `cmd/main.go`, `app.py`)
-- What is the stated purpose of each top-level directory?
-- Are there non-obvious directories (e.g., `eng/`, `platform/`, `infra/`)?
-- Are there hidden config directories (`.github/`, `.vscode/`, `.husky/`)?
-- What naming conventions do directories follow? (camelCase, kebab-case, domain-based vs layer-based)
+## 3. データと契約
 
-## 3. ARCHITECTURE.md — Patterns
+- API、イベント、CLI、ファイル、内部モジュールの契約を確認する。
+- データの所有者、主キー、制約、関連、保持、削除、移行を確認する。
+- APIやDBが見つからない場合、存在を推測しない。
+- 外部サービスの認証、タイムアウト、再試行、レート制限、失敗時の動作を確認する。
 
-- Is the code organized by layer (controllers → services → repos) or by feature?
-- What is the primary data flow? Trace one request or command from entry to data store.
-- Are there singletons, dependency injection patterns, or explicit initialization order requirements?
-- Are there background workers, queues, or event-driven components?
-- What design patterns appear repeatedly? (Factory, Repository, Decorator, Strategy)
+## 4. 信頼境界
 
-## 4. CONVENTIONS.md — Coding Standards
+- 認証、認可、入力検証、秘密情報、個人情報、監査ログを確認する。
+- repository、host、tenantなどの検証がどの境界で行われるかを追う。
+- クライアント側の検査だけを信頼境界として扱わない。
 
-- What is the file naming convention? (check 10+ files — camelCase, kebab-case, PascalCase)
-- What is the function and variable naming convention?
-- Are private methods/fields prefixed (e.g., `_methodName`, `#field`)?
-- What linter and formatter are configured? (check `.eslintrc`, `.prettierrc`, `golangci.yml`)
-- What are the TypeScript strictness settings? (`strict`, `noImplicitAny`, etc.)
-- How are errors handled at each layer? (throw vs. return structured error)
-- What logging library is used and what is the log message format?
-- How are imports organized? (barrel exports, path aliases, grouping rules)
+## 5. 品質特性
 
-## 5. INTEGRATIONS.md — External Services
+- 性能: 上限、ボトルネック、同期処理、キャッシュ、N+1を確認する。
+- 可用性: 単一障害点、再試行、冪等性、復旧方法を確認する。
+- 可観測性: ログ、メトリクス、トレース、診断情報、アラートを確認する。
+- 運用性: deploy、rollback、migration、backup、手動手順を確認する。
+- 互換性: version、feature flag、旧データ、旧クライアントへの対応を確認する。
 
-- What external APIs are called? (search for `axios.`, `fetch(`, `http.Get(`, base URLs in constants)
-- How are credentials stored and accessed? (`.env`, secrets manager, env vars)
-- What databases are connected? (check manifest for `pg`, `mongoose`, `prisma`, `typeorm`, `sqlalchemy`)
-- Is there an API gateway, service mesh, or proxy between the app and external services?
-- What monitoring or observability tools are used? (APM, Prometheus, logging pipeline)
-- Are there message queues or event buses? (Kafka, RabbitMQ, SQS, Pub/Sub)
+## 6. テストと履歴
 
-## 6. TESTING.md — Test Setup
+- 対象機能のunit、integration、E2E、VRTとfixtureを確認する。
+- テストが示す境界値、失敗、互換性を仕様根拠として記録する。
+- 最近の変更履歴と高頻度変更箇所は、設計意図を確認する手掛かりとして使う。履歴だけで現行仕様を確定しない。
 
-- What test runner is configured? (check `scripts.test` in `package.json`, `pytest.ini`, `go test`)
-- Where are test files located? (alongside source, in `tests/`, in `__tests__/`)
-- What assertion library is used? (Jest expect, Chai, pytest assert)
-- How are external dependencies mocked? (jest.mock, dependency injection, fixtures)
-- Are there integration tests that hit real services vs. unit tests with mocks?
-- Is there a coverage threshold enforced? (check `jest.config.js`, `.nycrc`, `pyproject.toml`)
+## 7. 根拠の記録
 
-## 7. CONCERNS.md — Known Issues
+コード根拠には次を記録する。
 
-- How many TODOs/FIXMEs/HACKs are in production code? (see scan output)
-- Which files have the highest git churn in the last 90 days? (see scan output)
-- Are there any files over 500 lines that mix multiple responsibilities?
-- Do any services make sequential calls that could be parallelized?
-- Are there hardcoded values (URLs, IDs, magic numbers) that should be config?
-- What security risks exist? (missing input validation, raw error messages exposed to clients, missing auth checks)
-- Are there performance patterns that don't scale? (N+1 queries, in-memory caches in multi-instance setups)
+- ファイルパス
+- 関連する型、関数、設定キーなどのシンボル
+- 必要な場合だけ行番号
+- コミットIDと作業ツリー状態
+- その根拠から確認できる内容
+
+コメント、名前、ディレクトリ構造だけで動作を断定しない。実装、設定、テストのいずれかで裏付ける。
