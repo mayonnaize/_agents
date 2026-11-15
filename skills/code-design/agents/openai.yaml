@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Design"
+  short_description: "既存コードと要件に基づき全体設計・機能仕様・コード設計を作成する"
+  default_prompt: "$code-design を使い、対象機能の要件と既存コードに基づいて必要な設計書を作成してください。"

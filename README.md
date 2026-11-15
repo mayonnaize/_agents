@@ -20,6 +20,7 @@
 `skills` ディレクトリには、エージェントが動的に読み込める以下の専用ツールが含まれています：
 
 - `concise-grounded-replies`: 簡潔で定型文を使用しない、根拠に基づいた回答を強制します。
+- [`code-design`](./skills/code-design/SKILL.md): 要件と既存コードに基づき、全体設計書・機能仕様書・コード設計書を作成・更新・レビューします。
 - `create-architecture-spec`: Mermaid図を用いた高品質なアーキテクチャ仕様書を生成します。
 - `create-readme`: 構造化された魅力的なREADMEファイルを自動生成します。
 - `drawio`: 図、フローチャート、アーキテクチャモデルの作成や処理のリクエストに対応します。
